@@ -1,0 +1,186 @@
+{
+  "name": "chatwoot-automations",
+  "version": "0.0.1",
+  "description": "A few automations for Chatwoot",
+  "main": "build/index.js",
+  "scripts": {
+    "dev": "node --loader ts-node/esm/transpile-only src/index.ts",
+    "build": "tsc",
+    "format": "prettier --write ./",
+    "format-check": "prettier --check ./",
+    "lint": "eslint ./",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "author": "Zikeji <me@zikeji.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@types/node": "^20.5.9",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "conventional-changelog-conventionalcommits": "^7.0.1",
+    "eslint": "^8.48.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "prettier": "^3.0.3",
+    "semantic-release": "^21.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits",
+          "presetConfig": {
+            "types": [
+              {
+                "type": "feat",
+                "section": "Features"
+              },
+              {
+                "type": "fix",
+                "section": "Bug Fixes"
+              },
+              {
+                "type": "docs",
+                "section": "Documentation"
+              },
+              {
+                "type": "style",
+                "hidden": true
+              },
+              {
+                "type": "refactor",
+                "section": "Code Refactoring"
+              },
+              {
+                "type": "perf",
+                "section": "Performance Improvements"
+              },
+              {
+                "type": "test",
+                "section": "Tests"
+              },
+              {
+                "type": "build",
+                "hidden": true
+              },
+              {
+                "type": "ci",
+                "hidden": true
+              },
+              {
+                "type": "chore",
+                "section": "Miscellaneous Chores"
+              },
+              {
+                "type": "revert",
+                "section": "Reverts"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits",
+          "presetConfig": {
+            "types": [
+              {
+                "type": "feat",
+                "section": "Features"
+              },
+              {
+                "type": "fix",
+                "section": "Bug Fixes"
+              },
+              {
+                "type": "docs",
+                "section": "Documentation"
+              },
+              {
+                "type": "style",
+                "hidden": true
+              },
+              {
+                "type": "refactor",
+                "section": "Code Refactoring"
+              },
+              {
+                "type": "perf",
+                "section": "Performance Improvements"
+              },
+              {
+                "type": "test",
+                "section": "Tests"
+              },
+              {
+                "type": "build",
+                "hidden": true
+              },
+              {
+                "type": "ci",
+                "hidden": true
+              },
+              {
+                "type": "chore",
+                "section": "Miscellaneous Chores"
+              },
+              {
+                "type": "revert",
+                "section": "Reverts"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogTitle": "# Changelog\n\nAll notable changes to this project will be documented in this file. See\n[Conventional Commits](https://conventionalcommits.org) for commit guidelines."
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false,
+          "tarballDir": "pack"
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "assignees": [
+            "zikeji"
+          ],
+          "addReleases": "top",
+          "assets": [
+            {
+              "path": "CHANGELOG.md"
+            },
+            {
+              "path": "pack/*.tgz"
+            },
+            {
+              "path": "build.zip",
+              "name": "build-${nextRelease.gitTag}.zip"
+            }
+          ]
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  }
+}

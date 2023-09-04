@@ -1,0 +1,43 @@
+name: 'release'
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  release:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 18.x
+      - name: Install dependencies
+        run: npm ci
+      - name: Run format check
+        run: npm run format-check
+      - name: Run eslint
+        run: npm run lint
+      - name: Build
+        run: npm run build --if-present
+      - uses: papeloto/action-zip@v1
+        with:
+          files: package.json package-lock.json build/
+          dest: build.zip
+      - name: Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+  merge:
+    needs: [release]
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: Merge main back into dev
+        uses: devmasx/merge-branch@v1.3.0
+        with:
+          type: now
+          head_to_merge: main
+          target_branch: dev
+          github_token: ${{ secrets.GITHUB_TOKEN }}
